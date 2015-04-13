@@ -2,7 +2,6 @@
 #define OBJETO_H
 #include <GL/gl.h>
 #include <GL/glu.h>
-
 #include "desenha.h"
 
 class Objeto

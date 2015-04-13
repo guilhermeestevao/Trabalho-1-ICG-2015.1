@@ -16,7 +16,9 @@ SOURCES += main.cpp \
     desenha.cpp \
     camera.cpp \
     cameradistante.cpp \
-    computador.cpp
+    computador.cpp \
+    piso.cpp \
+    quadro.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -29,5 +31,7 @@ HEADERS += \
     desenha.h \
     camera.h \
     cameradistante.h \
-    computador.h
+    computador.h \
+    piso.h \
+    quadro.h
 

@@ -9,6 +9,8 @@
 #include "cameradistante.h"
 #include "desenha.h"
 #include "computador.h"
+#include "piso.h"
+#include "quadro.h"
 
 using namespace std;
 
@@ -61,6 +63,12 @@ void display() {
     glColor3f(1,1,1);
 
     Desenha::drawGrid(10, 0, 10,1);
+
+    Objeto *piso = new Piso();
+    piso->desenhar();
+
+    Objeto *quadro = new Quadro();
+    quadro->desenhar();
 
     Objeto *cadeira = new Cadeira();
     cadeira->desenhar();
