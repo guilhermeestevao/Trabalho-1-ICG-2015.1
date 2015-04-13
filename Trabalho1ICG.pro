@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     vetor3d.cpp \
     desenha.cpp \
     camera.cpp \
-    cameradistante.cpp
+    cameradistante.cpp \
+    computador.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -27,5 +28,6 @@ HEADERS += \
     vetor3d.h \
     desenha.h \
     camera.h \
-    cameradistante.h
+    cameradistante.h \
+    computador.h
 

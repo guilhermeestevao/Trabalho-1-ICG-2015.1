@@ -18,7 +18,6 @@ public:
     void setSombra(bool sombra);
     void setEixos(bool eixos);
 protected:
-private:
     float ax, ay, az;
     float sx, sy, sz;
     float tx, ty, tz;

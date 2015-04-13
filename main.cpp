@@ -8,6 +8,7 @@
 #include "camera.h"
 #include "cameradistante.h"
 #include "desenha.h"
+#include "computador.h"
 
 using namespace std;
 
@@ -57,13 +58,18 @@ void displayInit() {
 void display() {
     displayInit();
 
-    glColor3f(0,1,0);
+    glColor3f(1,1,1);
+
+    Desenha::drawGrid(10, 0, 10,1);
 
     Objeto *cadeira = new Cadeira();
     cadeira->desenhar();
 
     Objeto *mesa = new Mesa();
     mesa->desenhar();
+
+    Objeto *computador = new Computador();
+    computador->desenhar();
 
     glutSwapBuffers();
 
@@ -149,6 +155,7 @@ void mouseMove(int x, int y) {
 
     last_x = x;
     last_y = y;
+    glutPostRedisplay();
 }
 
 void key(unsigned char key, int x, int y)
@@ -264,11 +271,11 @@ int main(int argc, char *argv[])
     glutCreateWindow("Laboratorio");
     glutReshapeFunc(tamanho);
     glutDisplayFunc(display);
-    glClearColor(1,1,1,1);
+    glClearColor(0,0,0,0);
 
     //teclado e maouse
     glutKeyboardFunc(key);
-    glutIdleFunc(idle);
+    //glutIdleFunc(idle);
     glutMouseFunc(mouseButton);
     glutMotionFunc(mouseMove);
 
