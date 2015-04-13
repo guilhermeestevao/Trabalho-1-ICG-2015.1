@@ -11,6 +11,7 @@
 #include "computador.h"
 #include "piso.h"
 #include "quadro.h"
+#include "laboratorio.h"
 
 using namespace std;
 
@@ -64,6 +65,7 @@ void display() {
 
     Desenha::drawGrid(10, 0, 10,1);
 
+    /*
     Objeto *piso = new Piso();
     piso->desenhar();
 
@@ -78,6 +80,10 @@ void display() {
 
     Objeto *computador = new Computador();
     computador->desenhar();
+    */
+
+    Laboratorio *lab = new Laboratorio();
+    lab->contruirCenario();
 
     glutSwapBuffers();
 

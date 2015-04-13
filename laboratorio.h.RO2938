@@ -1,0 +1,27 @@
+#ifndef LABORATORIO_H
+#define LABORATORIO_H
+#include "mesa.h"
+#include "cadeira.h"
+#include "quadro.h"
+#include "piso.h"
+#include "computador.h"
+#include <list>
+
+class Laboratorio
+{
+
+private:
+    std::list<Mesa*> mesas;
+    Objeto* mesa;
+    Objeto* cadeira;
+    Objeto* quadro;
+    Objeto* piso;
+    Objeto* computador;
+
+public:
+    Laboratorio();
+    ~Laboratorio();
+    void contruirCenario();
+};
+
+#endif // LABORATORIO_H

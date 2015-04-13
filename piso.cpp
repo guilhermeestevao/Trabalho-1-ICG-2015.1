@@ -21,5 +21,3 @@ void Piso::desenhar() const
         glEnable(GL_CULL_FACE);
     glPopMatrix();
 }
-
-

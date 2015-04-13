@@ -2,8 +2,10 @@
 #define MESA_H
 #include "objeto.h"
 
+
 class Mesa: public Objeto
 {
+
 public:
     Mesa();
     ~Mesa();
