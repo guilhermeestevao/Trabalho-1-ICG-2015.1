@@ -1,27 +1,34 @@
 #include "laboratorio.h"
 
 
-
-
-
 void Laboratorio::desenhaMesas()
 {
-    Mesa *mesa = new Mesa();
+
+    Mesa *mesa;
 
     for(int i = 0; i<QUANTIDADE*QUANTIDADE; i+=QUANTIDADE){
         glPushMatrix();
         glTranslated(0,0,-i);
+        mesa = (Mesa*) mesas->front();
         mesa->desenhar();
+        mesas->push_back(mesa);
+        mesas->pop_front();
         glPopMatrix();
 
         glPushMatrix();
         glTranslated(-3,0,-i);
+        mesa = (Mesa*) mesas->front();
         mesa->desenhar();
+        mesas->push_back(mesa);
+        mesas->pop_front();
         glPopMatrix();
 
         glPushMatrix();
         glTranslated(3,0,-i);
+        mesa = (Mesa*) mesas->front();
         mesa->desenhar();
+        mesas->push_back(mesa);
+        mesas->pop_front();
         glPopMatrix();
     }
 
@@ -57,22 +64,31 @@ void Laboratorio::desenhaMesaProfessor()
 void Laboratorio::desenhaCadeiras()
 {
 
-    Cadeira *cadeira = new Cadeira();
+    Cadeira *cadeira;
 
     for(int i = 0; i<QUANTIDADE*QUANTIDADE; i+=QUANTIDADE){
         glPushMatrix();
         glTranslated(0,0,-i);
+        cadeira = (Cadeira*)cadeiras->front();
         cadeira->desenhar();
+        cadeiras->push_back(cadeira);
+        cadeiras->pop_front();
         glPopMatrix();
 
         glPushMatrix();
         glTranslated(-3,0,-i);
+        cadeira = (Cadeira*)cadeiras->front();
         cadeira->desenhar();
+        cadeiras->push_back(cadeira);
+        cadeiras->pop_front();
         glPopMatrix();
 
         glPushMatrix();
         glTranslated(3,0,-i);
+        cadeira = (Cadeira*)cadeiras->front();
         cadeira->desenhar();
+        cadeiras->push_back(cadeira);
+        cadeiras->pop_front();
         glPopMatrix();
     }
 
@@ -83,22 +99,31 @@ void Laboratorio::desenhaCadeiras()
 
 void Laboratorio::desenhaComputadores()
 {
-    Computador *computador = new Computador();
+    Computador *computador;
 
     for(int i = 0; i<QUANTIDADE*QUANTIDADE; i+=QUANTIDADE){
         glPushMatrix();
         glTranslated(0,0,-i);
+        computador = (Computador*)computadores->front();
         computador->desenhar();
+        computadores->push_back(computador);
+        computadores->pop_front();
         glPopMatrix();
 
         glPushMatrix();
         glTranslated(-3,0,-i);
+        computador = (Computador*)computadores->front();
         computador->desenhar();
+        computadores->push_back(computador);
+        computadores->pop_front();
         glPopMatrix();
 
         glPushMatrix();
         glTranslated(3,0,-i);
+        computador = (Computador*)computadores->front();
         computador->desenhar();
+        computadores->push_back(computador);
+        computadores->pop_front();
         glPopMatrix();
     }
 
@@ -107,8 +132,17 @@ void Laboratorio::desenhaComputadores()
 Laboratorio::Laboratorio()
 {
     this->mesas = new std::list<Mesa*>();
+    for(int i = 0; i<QUANTIDADE*3; i++){
+        mesas->push_back(new Mesa());
+    }
     this->cadeiras = new std::list<Cadeira*>();
+    for(int i = 0; i<QUANTIDADE*3; i++){
+        cadeiras->push_back(new Cadeira());
+    }
     this->computadores = new std::list<Computador*>();
+    for(int i = 0; i<QUANTIDADE*3; i++){
+        computadores->push_back(new Computador());
+    }
     this->piso = new Piso();
     this->quadro = new Quadro();
 }
