@@ -15,8 +15,8 @@
 
 using namespace std;
 
-float width = 800;
-float height= 600;
+float width = 1280;
+float height= 720;
 bool lbpressed = false;
 bool mbpressed = false;
 bool rbpressed = false;
@@ -63,24 +63,7 @@ void display() {
 
     glColor3f(1,1,1);
 
-    Desenha::drawGrid(10, 0, 10,1);
-
-    /*
-    Objeto *piso = new Piso();
-    piso->desenhar();
-
-    Objeto *quadro = new Quadro();
-    quadro->desenhar();
-
-    Objeto *cadeira = new Cadeira();
-    cadeira->desenhar();
-
-    Objeto *mesa = new Mesa();
-    mesa->desenhar();
-
-    Objeto *computador = new Computador();
-    computador->desenhar();
-    */
+    //Desenha::drawGrid(10, 0, 10,1);
 
     Laboratorio *lab = new Laboratorio();
     lab->contruirCenario();

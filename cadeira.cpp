@@ -10,23 +10,23 @@ Cadeira::~Cadeira()
 
 }
 
-void Cadeira::desenhar(/*float inicioX, float inicioY, float inicioZ, float altura, float largura, float alturaAcento*/) const
+void Cadeira::desenhar() const
 {
 
     glColor3f(1,0,0);
 
-    //Pé vertical
+    //Pé horizontal
     glPushMatrix();
     glDisable(GL_CULL_FACE);
-    glTranslated(-0.45, 0.05, -0.05);
+    glTranslated(-0.45, 0, -0.05);
     Desenha::drawBox( 0.0,0.0,0.0, 0.9, 0.04, 0.1 );
     glEnable(GL_CULL_FACE);
     glPopMatrix();
 
-    //Pé horizontal
+    //Pé vertical
     glPushMatrix();
     glDisable(GL_CULL_FACE);
-    glTranslated(-0.05, 0.05, -0.45);
+    glTranslated(-0.05, 0, -0.45);
     Desenha::drawBox( 0.0,0.0,0.0, 0.1, 0.04, 0.9 );
     glEnable(GL_CULL_FACE);
     glPopMatrix();
@@ -37,7 +37,7 @@ void Cadeira::desenhar(/*float inicioX, float inicioY, float inicioZ, float altu
     glPushMatrix();
     glDisable(GL_CULL_FACE);
     glRotated(90, -1, 0, 0);
-    glTranslated(0, 0, 0.05);
+    glTranslated(0, 0, 0.04);
     gluCylinder(obj, 0.1, 0.1, 0.5, 30, 30);
     glEnable(GL_CULL_FACE);
     glPopMatrix();

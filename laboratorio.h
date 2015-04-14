@@ -6,7 +6,8 @@
 #include "piso.h"
 #include "computador.h"
 #include <list>
-#define QUANTIDADE 1
+#include <iostream>
+#define QUANTIDADE 4 //Quantidade de filas!
 using namespace std;
 
 class Laboratorio
@@ -15,11 +16,12 @@ class Laboratorio
 
 private:
     std::list<Mesa*>* mesas;
-    Objeto* cadeira;
+    std::list<Cadeira*>* cadeiras;
+    std::list<Computador*>* computadores;
     Objeto* quadro;
     Objeto* piso;
-    Objeto* computador;
     void desenhaMesas();
+    void desenhaMesaProfessor();
     void desenhaCadeiras();
     void desenhaComputadores();
 
