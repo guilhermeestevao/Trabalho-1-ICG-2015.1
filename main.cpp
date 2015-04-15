@@ -39,6 +39,8 @@ int stacks = 16;
 Camera* cam = new CameraDistante();
 float savedCamera[9];
 
+Laboratorio *lab = new Laboratorio();
+
 void tamanho(int largura, int altura){
     width = largura;
     altura = altura;
@@ -65,9 +67,8 @@ void display() {
 
     //Desenha::drawGrid(10, 0, 10,1);
 
-    Laboratorio *lab = new Laboratorio();
-    lab->contruirCenario();
 
+    lab->contruirCenario();
     glutSwapBuffers();
 
 }
@@ -154,6 +155,76 @@ void mouseMove(int x, int y) {
     last_y = y;
     glutPostRedisplay();
 }
+
+int pos_select = -1;
+std::vector<Objeto*>*objetos = lab->getObjetosCenario();
+int qtd_lista = objetos->size();
+
+void direcionalKeys( int key, int x, int y ) {
+    Objeto* obj;
+    Objeto* anterior;
+    Objeto* proximo;
+    switch (key) {
+    case GLUT_KEY_UP:
+
+        if(pos_select == qtd_lista-1){
+            pos_select = -1;
+        }
+
+        pos_select++;
+        obj = objetos->at(pos_select);
+        obj->setSelecionado(true);
+
+
+
+        if(pos_select != 0){
+            anterior = objetos->at(pos_select-1);
+            anterior->setSelecionado(false);
+        }else{
+            //apaga o ultimo
+            anterior = objetos->at(qtd_lista-1);
+            anterior->setSelecionado(false);
+        }
+
+        break;
+
+    case GLUT_KEY_DOWN:
+
+        if(pos_select == 0){
+            pos_select = qtd_lista-1;
+        }
+
+        std::cout<<pos_select<<"><"<<qtd_lista<<endl;
+
+        if(pos_select == -1){
+            pos_select = 1;
+        }
+
+
+        if(pos_select == qtd_lista-1){
+            obj = objetos->at(0);
+            obj->setSelecionado(false);
+        }
+
+        pos_select--;
+        obj = objetos->at(pos_select);
+        obj->setSelecionado(true);
+
+        if(pos_select != qtd_lista){
+            anterior = objetos->at(pos_select+1);
+            anterior->setSelecionado(false);
+        }else{
+            proximo = objetos->at(qtd_lista+1);
+            proximo->setSelecionado(false);
+        }
+
+        break;
+    }
+
+    glutPostRedisplay();
+
+}
+
 
 void key(unsigned char key, int x, int y)
 {
@@ -275,7 +346,7 @@ int main(int argc, char *argv[])
     //glutIdleFunc(idle);
     glutMouseFunc(mouseButton);
     glutMotionFunc(mouseMove);
-
+    glutSpecialFunc(direcionalKeys);
 
     glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);

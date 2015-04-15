@@ -12,7 +12,13 @@ Mesa::~Mesa()
 
 void Mesa::desenhar() const
 {
-    glColor3f(0,1,0);
+
+    if(!selecionado)
+        glColor3f(0,1,0);
+    else
+       glColor3f(1,1,1);
+
+
 
     //Tampa
     glPushMatrix();

@@ -18,6 +18,7 @@ Objeto::~Objeto()
 void Objeto::desenhar() const
 {
 
+
 }
 
 void Objeto::setRotacao(float x, float y, float z)

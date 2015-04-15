@@ -12,8 +12,14 @@ Computador::~Computador()
 
 void Computador::desenhar() const
 {
+
+    if(!selecionado)
+        glColor3f(0,0,1);
+    else
+       glColor3f(1,1,1);
+
     //base monitor
-    glColor3f(0,0,1);
+
     glPushMatrix();
     glDisable(GL_CULL_FACE);
     glTranslated(0.3, 0.8, 0.7);

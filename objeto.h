@@ -16,6 +16,7 @@ public:
     void setSelecionado(bool selecionado);
     void setSombra(bool sombra);
     void setEixos(bool eixos);
+
 protected:
     float ax, ay, az;
     float sx, sy, sz;

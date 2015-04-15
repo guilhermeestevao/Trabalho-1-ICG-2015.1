@@ -12,8 +12,11 @@ Cadeira::~Cadeira()
 
 void Cadeira::desenhar() const
 {
+    if(!selecionado)
+        glColor3f(1,0,0);
+    else
+       glColor3f(1,1,1);
 
-    glColor3f(1,0,0);
 
     //Pé horizontal
     glPushMatrix();
