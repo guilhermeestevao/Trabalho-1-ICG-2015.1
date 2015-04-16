@@ -22,6 +22,9 @@ private:
     std::list<Computador*>* computadores;
     Objeto* quadro;
     Objeto* piso;
+    Objeto* mesaProfessor;
+    Objeto* cadeiraProfessor;
+    Objeto* computadorProfessor;
     void desenhaMesas();
     void desenhaMesaProfessor();
     void desenhaCadeiras();

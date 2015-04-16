@@ -3,9 +3,14 @@
 void Laboratorio::desenhaMesas()
 {
 
-    Mesa *mesa;
+    Mesa *mesa = new Mesa();
+
+    //Mesa do professor
+
 
     for(int i = 0; i<QUANTIDADE*QUANTIDADE; i+=QUANTIDADE){
+
+
         glPushMatrix();
         glTranslated(0,0,-i);
         mesa = (Mesa*) mesas->front();
@@ -35,28 +40,26 @@ void Laboratorio::desenhaMesas()
 
 void Laboratorio::desenhaMesaProfessor()
 {
-     Mesa *mesa = new Mesa();
-     //objetosCenarios->push_back(mesa);
+
      glPushMatrix();
      glRotated(180, 0,1,0);
      glTranslated(-2,0,-4);
-     mesa->desenhar();
+     mesaProfessor->desenhar();
+     objetosCenarios->push_back(mesaProfessor);
      glPopMatrix();
 
-     Cadeira *cadeira = new Cadeira();
-     //objetosCenarios->push_back(cadeira);
      glPushMatrix();
      glRotated(180, 0,1,0);
      glTranslated(-2,0,-4);
-     cadeira->desenhar();
+     cadeiraProfessor->desenhar();
+     objetosCenarios->push_back(cadeiraProfessor);
      glPopMatrix();
 
-     Computador *computador = new Computador();
-     //objetosCenarios->push_back(cadeira);
      glPushMatrix();
      glRotated(180, 0,1,0);
      glTranslated(-2,0,-4);
-     computador->desenhar();
+     computadorProfessor->desenhar();
+     objetosCenarios->push_back(cadeiraProfessor);
      glPopMatrix();
 
 
@@ -66,9 +69,12 @@ void Laboratorio::desenhaMesaProfessor()
 void Laboratorio::desenhaCadeiras()
 {
 
-    Cadeira *cadeira;
+    Cadeira *cadeira = new Cadeira();
+
 
     for(int i = 0; i<QUANTIDADE*QUANTIDADE; i+=QUANTIDADE){
+
+
         glPushMatrix();
         glTranslated(0,0,-i);
         cadeira = (Cadeira*)cadeiras->front();
@@ -101,9 +107,11 @@ void Laboratorio::desenhaCadeiras()
 
 void Laboratorio::desenhaComputadores()
 {
-    Computador *computador;
+    Computador *computador = new Computador();
+
 
     for(int i = 0; i<QUANTIDADE*QUANTIDADE; i+=QUANTIDADE){
+
         glPushMatrix();
         glTranslated(0,0,-i);
         computador = (Computador*)computadores->front();
@@ -129,12 +137,25 @@ void Laboratorio::desenhaComputadores()
         glPopMatrix();
     }
 
+
 }
 
 
 Laboratorio::Laboratorio()
 {
+
     this->objetosCenarios = new std::vector<Objeto*>();
+
+    this->piso = new Piso();
+    objetosCenarios->push_back(piso);
+    this->quadro = new Quadro();
+    objetosCenarios->push_back(quadro);
+    this->mesaProfessor = new Mesa();
+    objetosCenarios->push_back(mesaProfessor);
+    this->cadeiraProfessor = new Cadeira();
+    objetosCenarios->push_back(cadeiraProfessor);
+    this->computadorProfessor = new Computador();
+    objetosCenarios->push_back(computadorProfessor);
 
     this->mesas = new std::list<Mesa*>();
     for(int i = 0; i<QUANTIDADE*3; i++){
@@ -157,10 +178,7 @@ Laboratorio::Laboratorio()
         objetosCenarios->push_back(computador);
     }
 
-    this->piso = new Piso();
-    //objetosCenarios->push_back(piso);
-    this->quadro = new Quadro();
-    //objetosCenarios->push_back(quadro);
+
 }
 
 Laboratorio::~Laboratorio()

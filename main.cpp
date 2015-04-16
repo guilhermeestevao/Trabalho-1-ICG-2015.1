@@ -65,7 +65,7 @@ void display() {
 
     glColor3f(1,1,1);
 
-    //Desenha::drawGrid(10, 0, 10,1);
+    Desenha::drawGrid(10, 0, 10,1);
 
 
     lab->contruirCenario();
@@ -159,7 +159,6 @@ void mouseMove(int x, int y) {
 int pos_select = -1;
 std::vector<Objeto*>*objetos = lab->getObjetosCenario();
 int qtd_lista = objetos->size();
-
 void direcionalKeys( int key, int x, int y ) {
     Objeto* obj;
     Objeto* anterior;
@@ -175,13 +174,10 @@ void direcionalKeys( int key, int x, int y ) {
         obj = objetos->at(pos_select);
         obj->setSelecionado(true);
 
-
-
         if(pos_select != 0){
             anterior = objetos->at(pos_select-1);
             anterior->setSelecionado(false);
         }else{
-            //apaga o ultimo
             anterior = objetos->at(qtd_lista-1);
             anterior->setSelecionado(false);
         }
@@ -193,8 +189,6 @@ void direcionalKeys( int key, int x, int y ) {
         if(pos_select == 0){
             pos_select = qtd_lista-1;
         }
-
-        std::cout<<pos_select<<"><"<<qtd_lista<<endl;
 
         if(pos_select == -1){
             pos_select = 1;
@@ -219,6 +213,15 @@ void direcionalKeys( int key, int x, int y ) {
         }
 
         break;
+    case GLUT_KEY_RIGHT:
+        obj = objetos->at(pos_select);
+        obj->setEixos(true);
+        break;
+    case GLUT_KEY_LEFT:
+        obj = objetos->at(pos_select);
+        obj->setEixos(false);
+        break;
+
     }
 
     glutPostRedisplay();
