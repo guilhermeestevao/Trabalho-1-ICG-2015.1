@@ -12,6 +12,7 @@ Mesa::~Mesa()
 
 void Mesa::desenhar() const
 {
+    Objeto::desenhar();
 
     if(!selecionado)
         glColor3f(0,1,0);
@@ -22,10 +23,7 @@ void Mesa::desenhar() const
     glPushMatrix();
     glDisable(GL_CULL_FACE);
     glTranslated(0, 0.5, 0.7);
-    if(eixos){
-        Desenha::drawEixos(1);
-        glColor3f(1,1,1);
-    }
+
     Desenha::drawBox(-1, 0.3, -0.5 ,1,0.4, 1);
     glEnable(GL_CULL_FACE);
     glPopMatrix();

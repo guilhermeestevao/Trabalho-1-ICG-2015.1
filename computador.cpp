@@ -12,6 +12,7 @@ Computador::~Computador()
 
 void Computador::desenhar() const
 {
+    Objeto::desenhar();
 
     if(!selecionado)
         glColor3f(0,0,1);
@@ -23,10 +24,7 @@ void Computador::desenhar() const
     glPushMatrix();
     glDisable(GL_CULL_FACE);
     glTranslated(0.3, 0.8, 0.7);
-    if(eixos) {
-        Desenha::drawEixos(1);
-        glColor3f(1,1,1);
-    }
+
     Desenha::drawBox(0, 0.1, 0.3, 0.3, 0.15, 0.6);
     glEnable(GL_CULL_FACE);
     glPopMatrix();

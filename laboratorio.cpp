@@ -41,26 +41,26 @@ void Laboratorio::desenhaMesas()
 void Laboratorio::desenhaMesaProfessor()
 {
 
-     glPushMatrix();
-     glRotated(180, 0,1,0);
-     glTranslated(-2,0,-4);
-     mesaProfessor->desenhar();
-     objetosCenarios->push_back(mesaProfessor);
-     glPopMatrix();
+    glPushMatrix();
+    glRotated(180, 0,1,0);
+    glTranslated(-2,0,-4);
+    mesaProfessor->desenhar();
+    objetosCenarios->push_back(mesaProfessor);
+    glPopMatrix();
 
-     glPushMatrix();
-     glRotated(180, 0,1,0);
-     glTranslated(-2,0,-4);
-     cadeiraProfessor->desenhar();
-     objetosCenarios->push_back(cadeiraProfessor);
-     glPopMatrix();
+    glPushMatrix();
+    glRotated(180, 0,1,0);
+    glTranslated(-2,0,-4);
+    cadeiraProfessor->desenhar();
+    objetosCenarios->push_back(cadeiraProfessor);
+    glPopMatrix();
 
-     glPushMatrix();
-     glRotated(180, 0,1,0);
-     glTranslated(-2,0,-4);
-     computadorProfessor->desenhar();
-     objetosCenarios->push_back(cadeiraProfessor);
-     glPopMatrix();
+    glPushMatrix();
+    glRotated(180, 0,1,0);
+    glTranslated(-2,0,-4);
+    computadorProfessor->desenhar();
+    objetosCenarios->push_back(cadeiraProfessor);
+    glPopMatrix();
 
 
 
@@ -105,6 +105,7 @@ void Laboratorio::desenhaCadeiras()
 
 
 
+
 void Laboratorio::desenhaComputadores()
 {
     Computador *computador = new Computador();
@@ -137,6 +138,24 @@ void Laboratorio::desenhaComputadores()
         glPopMatrix();
     }
 
+
+}
+
+void Laboratorio::desenhaQuadroEpiso()
+{
+
+    glPushMatrix();
+    glDisable(GL_CULL_FACE);
+    glTranslated(0,0,0);
+    this->piso->desenhar();
+    glEnable(GL_CULL_FACE);
+    glPopMatrix();
+    glPushMatrix();
+    glDisable(GL_CULL_FACE);
+    glTranslated(0,1,5);
+    this->quadro->desenhar();
+    glEnable(GL_CULL_FACE);
+    glPopMatrix();
 
 }
 
@@ -188,9 +207,8 @@ Laboratorio::~Laboratorio()
 
 void Laboratorio::contruirCenario()
 {
-    this->piso->desenhar();
-    this->quadro->desenhar();
 
+    desenhaQuadroEpiso();
     desenhaMesaProfessor();
     desenhaCadeiras();
     desenhaMesas();

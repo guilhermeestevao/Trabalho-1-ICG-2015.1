@@ -12,6 +12,8 @@ Cadeira::~Cadeira()
 
 void Cadeira::desenhar() const
 {
+    Objeto::desenhar();
+
     if(!selecionado)
         glColor3f(1,0,0);
     else
@@ -22,10 +24,7 @@ void Cadeira::desenhar() const
     glPushMatrix();
     glDisable(GL_CULL_FACE);
     glTranslated(-0.45, 0, -0.05);
-    if (eixos) {
-        Desenha::drawEixos( 1 );
-        glColor3f(1,1,1);
-    }
+
     Desenha::drawBox( 0.0,0.0,0.0, 0.9, 0.04, 0.1 );
     glEnable(GL_CULL_FACE);
     glPopMatrix();

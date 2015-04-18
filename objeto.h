@@ -14,14 +14,22 @@ public:
     void setEscala(float x, float y, float z);
     void setTranslacao(float x, float y, float z);
     void setSelecionado(bool selecionado);
-    void setSombra(bool sombra);
     void setEixos(bool eixos);
+    float getAX();
+    float getAY();
+    float getAZ();
+    float getTX();
+    float getTY();
+    float getTZ();
+    float getSX();
+    float getSY();
+    float getSZ();
 
 protected:
     float ax, ay, az;
     float sx, sy, sz;
     float tx, ty, tz;
-    bool selecionado, sombra, eixos;
+    bool selecionado, eixos;
 };
 
 #endif // OBJETO_H

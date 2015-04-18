@@ -29,7 +29,7 @@ private:
     void desenhaMesaProfessor();
     void desenhaCadeiras();
     void desenhaComputadores();
-
+    void desenhaQuadroEpiso();
 
 public:
     Laboratorio();

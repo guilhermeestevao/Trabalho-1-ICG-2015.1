@@ -35,12 +35,15 @@ float sy = 1.0;
 float sz = 1.0;
 int slices = 16;
 int stacks = 16;
+int pos_select = -1;
 
 Camera* cam = new CameraDistante();
 float savedCamera[9];
 
 Laboratorio *lab = new Laboratorio();
 
+std::vector<Objeto*>*objetos = lab->getObjetosCenario();
+int qtd_lista = objetos->size();
 void tamanho(int largura, int altura){
     width = largura;
     altura = altura;
@@ -66,14 +69,17 @@ void display() {
     glColor3f(1,1,1);
 
     Desenha::drawGrid(10, 0, 10,1);
-
-
     lab->contruirCenario();
+
+    cout<<"e.x = "<<cam->e.x<<"e.y = "<<cam->e.y<<"e.z = "<<cam->e.z<<"c.x = "<<cam->c.x<<"c.y = "<<cam->c.y<<"c.z = "<<cam->c.z<<"u.x = "<<cam->u.x<<"u.y"<<cam->u.y<<"u.z = "<<cam->u.z<<endl;
     glutSwapBuffers();
+
 
 }
 
 void mouseButton(int button, int state, int x, int y) {
+
+
     // if the left button is pressed
     if (button == GLUT_LEFT_BUTTON) {
         // when the button is pressed
@@ -104,9 +110,28 @@ void mouseButton(int button, int state, int x, int y) {
 
     last_x = x;
     last_y = y;
+
+
+
 }
 
 void mouseMove(int x, int y) {
+
+    Objeto* obj;
+    if(pos_select != -1){
+        obj = objetos->at(pos_select);
+
+        ax = obj->getAX();
+        ay = obj->getAY();
+        az = obj->getAZ();
+        tx = obj->getTX();
+        ty = obj->getTY();
+        tz = obj->getTZ();
+        sx = obj->getSX();
+        sy = obj->getSY();
+        sz = obj->getSZ();
+    }
+
     float fator = 10.0;
     if (lbpressed && !rbpressed && !mbpressed) {
         if (!trans_obj) {
@@ -153,12 +178,17 @@ void mouseMove(int x, int y) {
 
     last_x = x;
     last_y = y;
+
+    if(pos_select != -1){
+        obj->setTranslacao(tx, ty, tz);
+        obj->setRotacao(ax, ay, az);
+        obj->setEscala(sx, sy, sz);
+    }
     glutPostRedisplay();
 }
 
-int pos_select = -1;
-std::vector<Objeto*>*objetos = lab->getObjetosCenario();
-int qtd_lista = objetos->size();
+
+
 void direcionalKeys( int key, int x, int y ) {
     Objeto* obj;
     Objeto* anterior;
@@ -231,11 +261,28 @@ void direcionalKeys( int key, int x, int y ) {
 
 void key(unsigned char key, int x, int y)
 {
+    Objeto* obj;
+
+    if(pos_select != -1){
+        obj = objetos->at(pos_select);
+
+
+        ax = obj->getAX();
+        ay = obj->getAY();
+        az = obj->getAZ();
+        tx = obj->getTX();
+        ty = obj->getTY();
+        tz = obj->getTZ();
+        sx = obj->getSX();
+        sy = obj->getSY();
+        sz = obj->getSZ();
+
+    }
+
     switch (key)
     {
     case 27 :
     case 13 :
-    case 'q':
         exit(0);
         break;
 
@@ -283,6 +330,53 @@ void key(unsigned char key, int x, int y)
         az-=delta;
         break;
 
+    case 'w':
+        tz+=1;
+        break;
+
+    case 's':
+        tz-=1;
+        break;
+    case 'd':
+        tx-=1;
+        break;
+
+    case 'a':
+        tx+=1;
+        break;
+
+    case 'q':
+        ty+=1;
+        break;
+
+    case 'e':
+        ty-=1;
+        break;
+
+    case 'W':
+        sz +=1;
+        break;
+
+    case 'S':
+        sz -=1;
+        break;
+
+    case 'D':
+        sx*=2;
+        break;
+
+    case 'A':
+        sx/=2;
+        break;
+
+    case 'Q':
+        sy*=2;
+        break;
+
+    case 'E':
+        sy/=1;
+        break;
+
     case 'i':
         ax=ay=az=0.0;
         tx=ty=tz=0.0;
@@ -299,9 +393,9 @@ void key(unsigned char key, int x, int y)
         if (cam->estilo == 1) {
             delete cam;
             if (posCam%5==0) cam = new CameraDistante(); //CameraDistante(0,1,5, 0,1,0, 0,1,0);
-            if (posCam%5==1) cam = new CameraDistante(5,1,0, 0,1,0, 0,1,0);
-            if (posCam%5==2) cam = new CameraDistante(0,1,-5, 0,1,0, 0,1,0);
-            if (posCam%5==3) cam = new CameraDistante(-5,1,0, 0,1,0, 0,1,0);
+            if (posCam%5==1) cam = new CameraDistante(10,20,8, 0,1,0, 0,1,0);
+            if (posCam%5==2) cam = new CameraDistante(0,6.5,-16, 0,1,0, 0,1,0);
+            if (posCam%5==3) cam = new CameraDistante(-13,7,17 , 0,1,0, 0,1,0);
             if (posCam%5==4) cam = new CameraDistante(savedCamera[0],savedCamera[1],savedCamera[2],savedCamera[3],savedCamera[4],savedCamera[5],savedCamera[6],savedCamera[7],savedCamera[8]);
         } else if (cam->estilo == 2) {
             delete cam;
@@ -309,7 +403,7 @@ void key(unsigned char key, int x, int y)
         }
         break;
 
-    case 's':
+    case 'b':
         //save current camera location
         savedCamera[0] = cam->e.x;
         savedCamera[1] = cam->e.y;
@@ -323,6 +417,12 @@ void key(unsigned char key, int x, int y)
         break;
     }
 
+    if(pos_select != -1){
+
+        obj->setTranslacao(tx, ty, tz);
+        obj->setRotacao(ax, ay, az);
+        obj->setEscala(sx, sy, sz);
+    }
     glutPostRedisplay();
 }
 
@@ -350,6 +450,8 @@ int main(int argc, char *argv[])
     glutMouseFunc(mouseButton);
     glutMotionFunc(mouseMove);
     glutSpecialFunc(direcionalKeys);
+
+
 
     glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
