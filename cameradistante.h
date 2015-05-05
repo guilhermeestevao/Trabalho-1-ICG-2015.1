@@ -4,7 +4,6 @@
 #include <math.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-
 #include "camera.h"
 
 class CameraDistante : public Camera

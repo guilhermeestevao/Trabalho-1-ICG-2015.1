@@ -6,7 +6,7 @@ CONFIG -= qt
 INCLUDEPATH += gui_glut
 INCLUDEPATH += user
 
-LIBS += -lGL -lGLU -lglut
+LIBS += -lglut -lGLU -lGL
 
 SOURCES += main.cpp \
     cadeira.cpp \
@@ -19,7 +19,10 @@ SOURCES += main.cpp \
     computador.cpp \
     piso.cpp \
     quadro.cpp \
-    laboratorio.cpp
+    laboratorio.cpp \
+    parede.cpp \
+    extra.cpp \
+    gui.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -35,5 +38,8 @@ HEADERS += \
     computador.h \
     piso.h \
     quadro.h \
-    laboratorio.h
+    laboratorio.h \
+    parede.h \
+    extra.h \
+    gui.h
 

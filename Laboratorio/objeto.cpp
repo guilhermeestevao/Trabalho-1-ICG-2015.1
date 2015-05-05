@@ -2,8 +2,9 @@
 
 Objeto::Objeto()
 {
-    selecionado =false;
+    selecionado = false;
     eixos = false;
+    sombra = false;
     ax = ay = az = 0;
     tx = ty =  tz = 0;
     sx = sy = sz = 1;
@@ -22,6 +23,11 @@ void Objeto::desenhar() const
         Desenha::drawEixos( 1 );
         glColor3f(0,1,1);
     }
+
+    if(sombra){
+        glColor3d(0.0,0.0,0.0);
+    }
+
     glRotated(ax, 1, 0, 0);
     glRotated(ay, 0, 1, 0);
     glRotated(az, 0, 0, 1);

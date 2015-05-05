@@ -5,9 +5,9 @@
 #include <iomanip>
 #include "cadeira.h"
 #include "mesa.h"
-#include "camera.h"
-#include "cameradistante.h"
-#include "desenha.h"
+#include "bib/Camera.h"
+#include "bib/CameraDistante.h"
+#include "bib/Desenha.h"
 #include "computador.h"
 #include "piso.h"
 #include "quadro.h"
@@ -42,11 +42,46 @@ int pos_select = -1;
 
 Camera* cam = new CameraDistante(1,3,22,0,1,0,0,1,0);
 float savedCamera[9];
-GLfloat light_position[] = { 0.0f, 4.0f, -5.0f, 1.0f };
+GLfloat light_position[] = { 0.0f, 4.0f, 0.0f, 1.0f };
 
 Laboratorio *lab = new Laboratorio();
 std::vector<Objeto*>*objetos = lab->getObjetosCenario();
 int qtd_lista = objetos->size();
+
+Objeto *piso = new Piso();
+
+
+void desenhaObjetosComSombra() {
+    //sistema local 1
+    glPushMatrix();
+        //composicao de transformacoes
+        glTranslated(tx,ty,tz);
+        glRotated(az,0,0,1);
+        glRotated(ay,0,1,0);
+        glRotated(ax,1,0,0);
+        //desenhando ponto, dado em coords do sistema local 1
+//          glPushMatrix();
+//            glTranslated(pl[0],pl[1],pl[2]);
+//            glutSolidSphere(0.1,slices,stacks);
+//          glPopMatrix();
+        //retomando as transformacoes do objeto do sistema local 1
+        glScaled(sx,sx,sx);
+        //glScaled(sx,sy,sz);
+        //desenhando eixos do sistema de coordenadas local 1
+          //Desenha::drawEixos( 0.5 );
+        //desenhando objeto
+        //glColor3d(0.3,0.3,0.3);
+        //glutSolidTorus(0.2,0.8,slices,stacks);
+        //glCallList (gBunnySolidList);
+        //modelo->draw();
+
+        lab->contruirCenario();
+
+
+
+    glPopMatrix();
+}
+
 
 
 
@@ -81,7 +116,7 @@ void display() {
 
     glColor3f(1,1,1);
 
-    Desenha::drawGrid(10, 0, 10,1);
+    //Desenha::drawGrid(10, 0, 10,1);
     lab->contruirCenario();
 
     glPushMatrix();
@@ -89,8 +124,29 @@ void display() {
     glutGUI::trans_luz = trans_luz;
     GUI::setLight(0,light_position[0],light_position[1],light_position[2],false,false);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    Desenha::drawEixos(0.5);
+
     glPopMatrix();
+
+    //sistema local 1 com sombra
+    glPushMatrix();
+
+        desenhaObjetosComSombra();
+    glPopMatrix();
+    glPushMatrix();
+        //matriz de projecao para gerar sombra no plano y=0
+            float sombra[16] = {
+                                 light_position[1], -light_position[0],                0.0,                0.0,
+                                               0.0,                0.0,                0.0,                0.0,
+                                               0.0, -light_position[2],  light_position[1],                0.0,
+                                               0.0, -light_position[3],                0.0,  light_position[1]
+                                 };
+            glMultTransposeMatrixf( sombra );
+        glDisable(GL_LIGHTING);
+
+        desenhaObjetosComSombra();
+        glEnable(GL_LIGHTING);
+    glPopMatrix();
+
 
 
     cout<<"e.x = "<<cam->e.x<<"e.y = "<<cam->e.y<<"e.z = "<<cam->e.z<<"c.x = "<<cam->c.x<<"c.y = "<<cam->c.y<<"c.z = "<<cam->c.z<<"u.x = "<<cam->u.x<<"u.y"<<cam->u.y<<"u.z = "<<cam->u.z<<endl;
@@ -309,14 +365,12 @@ void key(unsigned char key, int x, int y)
         glutFullScreen();
         break;
     case 'f':
-        glutReshapeWindow(800,600);
+        glutReshapeWindow(1280,720);
         break;
-
     case '+':
         slices++;
         stacks++;
         break;
-
     case '-':
         if (slices>3 && stacks>3)
         {
@@ -324,103 +378,80 @@ void key(unsigned char key, int x, int y)
             stacks--;
         }
         break;
-
     case 'X':
         ax+=delta;
         break;
-
     case 'Y':
         ay+=delta;
         break;
-
     case 'Z':
         az+=delta;
         break;
-
     case 'x':
         ax-=delta;
         break;
-
     case 'y':
         ay-=delta;
         break;
-
     case 'z':
         az-=delta;
         break;
-
     case 'w':
         tz+=1;
         break;
-
     case 's':
         tz-=1;
         break;
     case 'd':
         tx-=1;
         break;
-
     case 'a':
         tx+=1;
         break;
-
     case 'q':
         ty+=1;
         break;
-
     case 'e':
         ty-=1;
         break;
-
     case 'W':
         sz +=1;
         break;
-
     case 'S':
         sz -=1;
         break;
-
     case 'D':
         sx*=2;
         break;
-
     case 'A':
         sx/=2;
         break;
-
     case 'Q':
         sy*=2;
         break;
-
     case 'E':
         sy/=1;
         break;
-
     case 'i':
         ax=ay=az=0.0;
         tx=ty=tz=0.0;
         sx=sy=sz=1.0;
         break;
-
     case 't':
         trans_obj = !trans_obj;
         break;
-
     case 'p':
         projecao = true;
         break;
     case 'P':
         projecao = false;
         break;
-
     case 'v':
         trans_luz = !trans_luz;
         break;
-
     case 'l':
         light_position[3] = 1 - light_position[3];
         break;
-
     case 'c':
         static int posCam = 0;
         posCam++;
@@ -452,13 +483,14 @@ void key(unsigned char key, int x, int y)
     }
 
     if(pos_select != -1){
-
         obj->setTranslacao(tx, ty, tz);
         obj->setRotacao(ax, ay, az);
         obj->setEscala(sx, sy, sz);
     }
     glutPostRedisplay();
 }
+
+
 
 void idle(void)
 {
