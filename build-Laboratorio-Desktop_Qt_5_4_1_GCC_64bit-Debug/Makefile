@@ -64,7 +64,8 @@ SOURCES       = ../Laboratorio/bib/Camera.cpp \
 		../Laboratorio/piso.cpp \
 		../Laboratorio/quadro.cpp \
 		../Laboratorio/laboratorio.cpp \
-		../Laboratorio/parede.cpp 
+		../Laboratorio/parede.cpp \
+		../Laboratorio/luz.cpp 
 OBJECTS       = Camera.o \
 		CameraDistante.o \
 		CameraJogo.o \
@@ -81,7 +82,8 @@ OBJECTS       = Camera.o \
 		piso.o \
 		quadro.o \
 		laboratorio.o \
-		parede.o
+		parede.o \
+		luz.o
 DIST          = ../../../Qt/5.4/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.4/gcc_64/mkspecs/common/shell-unix.conf \
 		../../../Qt/5.4/gcc_64/mkspecs/common/unix.conf \
@@ -212,7 +214,8 @@ DIST          = ../../../Qt/5.4/gcc_64/mkspecs/features/spec_pre.prf \
 		piso.h \
 		quadro.h \
 		laboratorio.h \
-		parede.h ../Laboratorio/bib/Camera.cpp \
+		parede.h \
+		luz.h ../Laboratorio/bib/Camera.cpp \
 		../Laboratorio/bib/CameraDistante.cpp \
 		../Laboratorio/bib/CameraJogo.cpp \
 		../Laboratorio/bib/Desenha.cpp \
@@ -228,7 +231,8 @@ DIST          = ../../../Qt/5.4/gcc_64/mkspecs/features/spec_pre.prf \
 		../Laboratorio/piso.cpp \
 		../Laboratorio/quadro.cpp \
 		../Laboratorio/laboratorio.cpp \
-		../Laboratorio/parede.cpp
+		../Laboratorio/parede.cpp \
+		../Laboratorio/luz.cpp
 QMAKE_TARGET  = Laboratorio
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = Laboratorio
@@ -551,7 +555,22 @@ Desenha.o: ../Laboratorio/bib/Desenha.cpp ../Laboratorio/bib/Desenha.h \
 Vetor3D.o: ../Laboratorio/bib/Vetor3D.cpp ../Laboratorio/bib/Vetor3D.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Vetor3D.o ../Laboratorio/bib/Vetor3D.cpp
 
-main.o: ../Laboratorio/main.cpp 
+main.o: ../Laboratorio/main.cpp ../Laboratorio/cadeira.h \
+		../Laboratorio/objeto.h \
+		../Laboratorio/bib/Desenha.h \
+		../Laboratorio/bib/Vetor3D.h \
+		../Laboratorio/mesa.h \
+		../Laboratorio/bib/Camera.h \
+		../Laboratorio/bib/CameraDistante.h \
+		../Laboratorio/computador.h \
+		../Laboratorio/piso.h \
+		../Laboratorio/gui_glut/gui.h \
+		../Laboratorio/gui_glut/extra.h \
+		../Laboratorio/gui_glut/OpenTextures.h \
+		../Laboratorio/quadro.h \
+		../Laboratorio/laboratorio.h \
+		../Laboratorio/parede.h \
+		../Laboratorio/luz.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Laboratorio/main.cpp
 
 model3ds.o: ../Laboratorio/bib/model3ds.cpp ../Laboratorio/bib/model3ds.h
@@ -600,7 +619,12 @@ computador.o: ../Laboratorio/computador.cpp ../Laboratorio/computador.h \
 piso.o: ../Laboratorio/piso.cpp ../Laboratorio/piso.h \
 		../Laboratorio/objeto.h \
 		../Laboratorio/bib/Desenha.h \
-		../Laboratorio/bib/Vetor3D.h
+		../Laboratorio/bib/Vetor3D.h \
+		../Laboratorio/gui_glut/gui.h \
+		../Laboratorio/gui_glut/extra.h \
+		../Laboratorio/bib/CameraDistante.h \
+		../Laboratorio/bib/Camera.h \
+		../Laboratorio/gui_glut/OpenTextures.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o piso.o ../Laboratorio/piso.cpp
 
 quadro.o: ../Laboratorio/quadro.cpp ../Laboratorio/quadro.h \
@@ -617,8 +641,14 @@ laboratorio.o: ../Laboratorio/laboratorio.cpp ../Laboratorio/laboratorio.h \
 		../Laboratorio/cadeira.h \
 		../Laboratorio/quadro.h \
 		../Laboratorio/piso.h \
+		../Laboratorio/gui_glut/gui.h \
+		../Laboratorio/gui_glut/extra.h \
+		../Laboratorio/bib/CameraDistante.h \
+		../Laboratorio/bib/Camera.h \
+		../Laboratorio/gui_glut/OpenTextures.h \
 		../Laboratorio/computador.h \
-		../Laboratorio/parede.h
+		../Laboratorio/parede.h \
+		../Laboratorio/luz.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o laboratorio.o ../Laboratorio/laboratorio.cpp
 
 parede.o: ../Laboratorio/parede.cpp ../Laboratorio/parede.h \
@@ -626,6 +656,15 @@ parede.o: ../Laboratorio/parede.cpp ../Laboratorio/parede.h \
 		../Laboratorio/bib/Desenha.h \
 		../Laboratorio/bib/Vetor3D.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o parede.o ../Laboratorio/parede.cpp
+
+luz.o: ../Laboratorio/luz.cpp ../Laboratorio/luz.h \
+		../Laboratorio/gui_glut/extra.h \
+		../Laboratorio/bib/CameraDistante.h \
+		../Laboratorio/bib/Camera.h \
+		../Laboratorio/bib/Vetor3D.h \
+		../Laboratorio/bib/Desenha.h \
+		../Laboratorio/gui_glut/OpenTextures.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o luz.o ../Laboratorio/luz.cpp
 
 ####### Install
 

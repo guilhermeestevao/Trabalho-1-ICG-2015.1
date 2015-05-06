@@ -14,10 +14,9 @@ void Mesa::desenhar() const
 {
     Objeto::desenhar();
 
-    if(!selecionado)
-        glColor3f(0,1,0);
-    else
+    if(selecionado)
         glColor3f(1,1,1);
+
 
     //Tampa
     glPushMatrix();

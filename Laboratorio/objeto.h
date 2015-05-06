@@ -30,6 +30,7 @@ protected:
     float ax, ay, az;
     float sx, sy, sz;
     float tx, ty, tz;
+    float matrizSombra[16];
     bool selecionado, eixos, sombra;
 };
 

@@ -14,9 +14,9 @@ void Cadeira::desenhar() const
 {
     Objeto::desenhar();
 
-    if(!selecionado)
-        glColor3f(1,0,0);
-    else
+
+
+    if(selecionado)
        glColor3f(1,1,1);
 
 

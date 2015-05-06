@@ -24,9 +24,6 @@ void Objeto::desenhar() const
         glColor3f(0,1,1);
     }
 
-    if(sombra){
-        glColor3d(0.0,0.0,0.0);
-    }
 
     glRotated(ax, 1, 0, 0);
     glRotated(ay, 0, 1, 0);

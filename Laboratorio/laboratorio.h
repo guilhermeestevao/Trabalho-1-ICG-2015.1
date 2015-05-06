@@ -6,13 +6,14 @@
 #include "piso.h"
 #include "computador.h"
 #include "parede.h"
+#include "luz.h"
 #include <list>
 #include <vector>
 #include <iostream>
 #define QUANTIDADE 4 //Quantidade de filas!
 using namespace std;
 
-class Laboratorio
+class Laboratorio: Objeto
 {
 
 
@@ -27,18 +28,23 @@ private:
     Objeto* mesaProfessor;
     Objeto* cadeiraProfessor;
     Objeto* computadorProfessor;
+
+    float *matrizSombra;
+    bool sombra;
     void desenhaMesas();
     void desenhaMesaProfessor();
     void desenhaCadeiras();
     void desenhaComputadores();
     void desenhaQuadroEpiso();
 
-
 public:
     Laboratorio();
     ~Laboratorio();
     void contruirCenario();
     std::vector<Objeto*>* getObjetosCenario();
+    void aplicaSombras(float *matrizSombra);
+    void setSombra(bool sombra);
+
 };
 
 #endif // LABORATORIO_H

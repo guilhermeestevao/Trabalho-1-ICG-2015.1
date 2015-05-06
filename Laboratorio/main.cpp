@@ -13,6 +13,7 @@
 #include "quadro.h"
 #include "laboratorio.h"
 #include "gui.h"
+#include "luz.h"
 
 using namespace std;
 
@@ -42,47 +43,13 @@ int pos_select = -1;
 
 Camera* cam = new CameraDistante(1,3,22,0,1,0,0,1,0);
 float savedCamera[9];
-GLfloat light_position[] = { 0.0f, 4.0f, 0.0f, 1.0f };
+GLfloat light_position[] = { 0.0f, 4.0f, 1.0f, 1.0f };
 
 Laboratorio *lab = new Laboratorio();
 std::vector<Objeto*>*objetos = lab->getObjetosCenario();
 int qtd_lista = objetos->size();
 
 Objeto *piso = new Piso();
-
-
-void desenhaObjetosComSombra() {
-    //sistema local 1
-    glPushMatrix();
-        //composicao de transformacoes
-        glTranslated(tx,ty,tz);
-        glRotated(az,0,0,1);
-        glRotated(ay,0,1,0);
-        glRotated(ax,1,0,0);
-        //desenhando ponto, dado em coords do sistema local 1
-//          glPushMatrix();
-//            glTranslated(pl[0],pl[1],pl[2]);
-//            glutSolidSphere(0.1,slices,stacks);
-//          glPopMatrix();
-        //retomando as transformacoes do objeto do sistema local 1
-        glScaled(sx,sx,sx);
-        //glScaled(sx,sy,sz);
-        //desenhando eixos do sistema de coordenadas local 1
-          //Desenha::drawEixos( 0.5 );
-        //desenhando objeto
-        //glColor3d(0.3,0.3,0.3);
-        //glutSolidTorus(0.2,0.8,slices,stacks);
-        //glCallList (gBunnySolidList);
-        //modelo->draw();
-
-        lab->contruirCenario();
-
-
-
-    glPopMatrix();
-}
-
-
 
 
 void resize(int largura, int altura){
@@ -116,37 +83,18 @@ void display() {
 
     glColor3f(1,1,1);
 
-    //Desenha::drawGrid(10, 0, 10,1);
-    lab->contruirCenario();
 
-    glPushMatrix();
+
     //posicao da luz
-    glutGUI::trans_luz = trans_luz;
-    GUI::setLight(0,light_position[0],light_position[1],light_position[2],false,false);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-    glPopMatrix();
-
-    //sistema local 1 com sombra
     glPushMatrix();
-
-        desenhaObjetosComSombra();
-    glPopMatrix();
-    glPushMatrix();
-        //matriz de projecao para gerar sombra no plano y=0
-            float sombra[16] = {
-                                 light_position[1], -light_position[0],                0.0,                0.0,
-                                               0.0,                0.0,                0.0,                0.0,
-                                               0.0, -light_position[2],  light_position[1],                0.0,
-                                               0.0, -light_position[3],                0.0,  light_position[1]
-                                 };
-            glMultTransposeMatrixf( sombra );
-        glDisable(GL_LIGHTING);
-
-        desenhaObjetosComSombra();
-        glEnable(GL_LIGHTING);
+        glutGUI::trans_luz = trans_luz;
+        GUI::setLight(0, Luz::lightPosition[0], Luz::lightPosition[1], Luz::lightPosition[2], false, false);
+        glLightfv(GL_LIGHT0, GL_POSITION, Luz::lightPosition);
     glPopMatrix();
 
+
+
+    lab->contruirCenario();
 
 
     cout<<"e.x = "<<cam->e.x<<"e.y = "<<cam->e.y<<"e.z = "<<cam->e.z<<"c.x = "<<cam->c.x<<"c.y = "<<cam->c.y<<"c.z = "<<cam->c.z<<"u.x = "<<cam->u.x<<"u.y"<<cam->u.y<<"u.z = "<<cam->u.z<<endl;
@@ -217,25 +165,39 @@ void mouseMove(int x, int y) {
             ay += (x - last_x)/fator;
         }
     }
+
     fator = 100.0;
     if (!lbpressed && rbpressed && !mbpressed) {
-        if (!trans_obj) {
+        if (!trans_obj && !trans_luz) {
             cam->translatex(x,last_x);
             cam->translatey(y,last_y);
         } else {
-            tx += (x - last_x)/fator;
-            ty += -(y - last_y)/fator;
+            if (trans_obj){
+                tx += (x - last_x)/fator;
+                ty += -(y - last_y)/fator;
+            }
+            if (trans_luz){
+                Luz::lightPosition[0] += (x - last_x)/fator;
+                Luz::lightPosition[1] += -(y - last_y)/fator;
+            }
         }
     }
+
     if (lbpressed && rbpressed && !mbpressed) {
-        if (!trans_obj) {
+        if (!trans_obj && !trans_luz) {
             cam->zoom(y,last_y);
         } else {
-            tz += (y - last_y)/fator;
-            fator = 10.0;
-            az += -(x - last_x)/fator;
+            if (trans_obj) {
+                tz += (y - last_y)/fator;
+                fator = 10.0;
+                az += -(x - last_x)/fator;
+            }
+            if (trans_luz) {
+                Luz::lightPosition[2] += (y - last_y)/fator;
+            }
         }
     }
+
     fator = 100.0;
     if (!lbpressed && !rbpressed && mbpressed) {
         if (!trans_obj) {
@@ -253,6 +215,10 @@ void mouseMove(int x, int y) {
 
     last_x = x;
     last_y = y;
+
+
+
+
 
     if(pos_select != -1){
         obj->setTranslacao(tx, ty, tz);
@@ -451,6 +417,12 @@ void key(unsigned char key, int x, int y)
         break;
     case 'l':
         light_position[3] = 1 - light_position[3];
+        if(light_position[3] == 1){
+            lab->setSombra(false);
+        }else{
+            lab->setSombra(true);
+        }
+
         break;
     case 'c':
         static int posCam = 0;
@@ -499,6 +471,9 @@ void idle(void)
 
 int main(int argc, char *argv[])
 {
+
+    Luz::inicializar();
+
 
     //Inicializando tela e suas dimensoes
     glutInit(&argc, argv);

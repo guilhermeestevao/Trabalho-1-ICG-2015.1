@@ -16,7 +16,7 @@ void Piso::desenhar() const
     Objeto::desenhar();
 
     if(!selecionado){
-        glColor3f(0.6,0.4,0.0);
+        glColor3f(128/255.0,128/255.0,128/255.0);
     }else{
         glColor3f(1,1,1);
     }

@@ -27,7 +27,8 @@ HEADERS += \
     piso.h \
     quadro.h \
     laboratorio.h \
-    parede.h
+    parede.h \
+    luz.h
 
 SOURCES += \
     bib/Camera.cpp \
@@ -46,7 +47,8 @@ SOURCES += \
     piso.cpp \
     quadro.cpp \
     laboratorio.cpp \
-    parede.cpp
+    parede.cpp \
+    luz.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
