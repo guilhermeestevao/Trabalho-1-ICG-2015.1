@@ -15,8 +15,6 @@ using namespace std;
 
 class Laboratorio: Objeto
 {
-
-
 private:
     std::vector<Objeto*>* objetosCenarios;
     std::list<Mesa*>* mesas;
@@ -42,7 +40,7 @@ public:
     ~Laboratorio();
     void contruirCenario();
     std::vector<Objeto*>* getObjetosCenario();
-    void aplicaSombras(float *matrizSombra);
+
     void setSombra(bool sombra);
 
 };

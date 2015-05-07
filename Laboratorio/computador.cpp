@@ -14,9 +14,7 @@ void Computador::desenhar() const
 {
     Objeto::desenhar();
 
-    if(!selecionado)
-        glColor3f(0,0,1);
-    else
+    if(selecionado)
        glColor3f(1,1,1);
 
     //base monitor

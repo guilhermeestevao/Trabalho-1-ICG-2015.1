@@ -34,7 +34,7 @@ void Laboratorio::desenhaMesas()
             glRotated(ay,0,1,0);
             glRotated(ax,1,0,0);
             glColor3d(0, 0, 0);
-            mesa->setSombra(true);
+
             mesa->desenhar();
             glEnable(GL_LIGHTING);
             glPopMatrix();
@@ -65,7 +65,7 @@ void Laboratorio::desenhaMesas()
             glRotated(az,0,0,1);
             glRotated(ay,0,1,0);
             glRotated(ax,1,0,0);
-            mesa->setSombra(true);
+
             glColor3f(0,0,0);
             mesa->desenhar();
             glEnable(GL_LIGHTING);
@@ -99,7 +99,7 @@ void Laboratorio::desenhaMesas()
             glRotated(ay,0,1,0);
             glRotated(ax,1,0,0);
             glColor3f(0,0,0);
-            mesa->setSombra(true);
+
             mesa->desenhar();
             glEnable(GL_LIGHTING);
             glPopMatrix();
@@ -141,7 +141,7 @@ void Laboratorio::desenhaMesaProfessor()
         glRotated(ay,0,1,0);
         glRotated(ax,1,0,0);
         glColor3f(0,0,0);
-        mesaProfessor->setSombra(true);
+
         mesaProfessor->desenhar();
         glEnable(GL_LIGHTING);
         glPopMatrix();
@@ -176,7 +176,7 @@ void Laboratorio::desenhaMesaProfessor()
         glRotated(ay,0,1,0);
         glRotated(ax,1,0,0);
         glColor3f(0,0,0);
-        cadeiraProfessor->setSombra(true);
+
         cadeiraProfessor->desenhar();
         glEnable(GL_LIGHTING);
         glPopMatrix();
@@ -185,6 +185,7 @@ void Laboratorio::desenhaMesaProfessor()
     objetosCenarios->push_back(cadeiraProfessor);
 
     glPushMatrix();
+    glColor3f(0,0,1);
     glRotated(180, 0,1,0);
     glTranslated(-2,0,-4);
     computadorProfessor->desenhar();
@@ -227,7 +228,7 @@ void Laboratorio::desenhaCadeiras()
             glRotated(az,0,0,1);
             glRotated(ay,0,1,0);
             glRotated(ax,1,0,0);
-            cadeira->setSombra(true);
+
             cadeira->desenhar();
             glEnable(GL_LIGHTING);
             glPopMatrix();
@@ -259,7 +260,7 @@ void Laboratorio::desenhaCadeiras()
             glRotated(az,0,0,1);
             glRotated(ay,0,1,0);
             glRotated(ax,1,0,0);
-            cadeira->setSombra(true);
+
             cadeira->desenhar();
             glEnable(GL_LIGHTING);
             glPopMatrix();
@@ -294,7 +295,7 @@ void Laboratorio::desenhaCadeiras()
             glRotated(ay,0,1,0);
             glRotated(ax,1,0,0);
             glColor3f(0,0,0);
-            cadeira->setSombra(true);
+
             cadeira->desenhar();
             glEnable(GL_LIGHTING);
             glPopMatrix();
@@ -321,27 +322,109 @@ void Laboratorio::desenhaComputadores()
 
         glPushMatrix();
         glTranslated(0,0,-i);
+        glColor3f(0,0,1);
         computador = (Computador*)computadores->front();
         computador->desenhar();
+
+        glPopMatrix();
+
+
+        if(sombra){
+            glPushMatrix();
+            float s[16] = {
+                            Luz::lightPosition[1], -Luz::lightPosition[0],                0.0,                0.0,
+                            0.0,                0.0,                0.0,                0.0,
+                            0.0, -Luz::lightPosition[2],  Luz::lightPosition[1],                0.0,
+                            0.0, -Luz::lightPosition[3],                0.0,  Luz::lightPosition[1]
+                        };
+            glColor3f(0,0,0);
+            glMultTransposeMatrixf(s);
+            glDisable(GL_LIGHTING);
+
+            glTranslated(0,0,-i);
+            glTranslated(tx,ty,tz);
+            glRotated(az,0,0,1);
+            glRotated(ay,0,1,0);
+            glRotated(ax,1,0,0);
+            glColor3f(0,0,0);
+
+            computador->desenhar();
+            glEnable(GL_LIGHTING);
+            glPopMatrix();
+        }
+
         computadores->push_back(computador);
         computadores->pop_front();
-        glPopMatrix();
+
 
         glPushMatrix();
         glTranslated(-3,0,-i);
+        glColor3f(0,0,1);
         computador = (Computador*)computadores->front();
         computador->desenhar();
+        glPopMatrix();
+        if(sombra){
+            glPushMatrix();
+            float s[16] = {
+                            Luz::lightPosition[1], -Luz::lightPosition[0],                0.0,                0.0,
+                            0.0,                0.0,                0.0,                0.0,
+                            0.0, -Luz::lightPosition[2],  Luz::lightPosition[1],                0.0,
+                            0.0, -Luz::lightPosition[3],                0.0,  Luz::lightPosition[1]
+                        };
+            glColor3f(0,0,0);
+            glMultTransposeMatrixf(s);
+            glDisable(GL_LIGHTING);
+
+            glTranslated(-3,0,-i);
+            glTranslated(tx,ty,tz);
+            glRotated(az,0,0,1);
+            glRotated(ay,0,1,0);
+            glRotated(ax,1,0,0);
+            glColor3f(0,0,0);
+
+            computador->desenhar();
+            glEnable(GL_LIGHTING);
+            glPopMatrix();
+        }
+
         computadores->push_back(computador);
         computadores->pop_front();
-        glPopMatrix();
 
         glPushMatrix();
         glTranslated(3,0,-i);
+        glColor3f(0,0,1);
         computador = (Computador*)computadores->front();
         computador->desenhar();
+
+        glPopMatrix();
+
+        if(sombra){
+            glPushMatrix();
+            float s[16] = {
+                            Luz::lightPosition[1], -Luz::lightPosition[0],                0.0,                0.0,
+                            0.0,                0.0,                0.0,                0.0,
+                            0.0, -Luz::lightPosition[2],  Luz::lightPosition[1],                0.0,
+                            0.0, -Luz::lightPosition[3],                0.0,  Luz::lightPosition[1]
+                        };
+            glColor3f(0,0,0);
+            glMultTransposeMatrixf(s);
+            glDisable(GL_LIGHTING);
+
+            glTranslated(3,0,-i);
+            glTranslated(tx,ty,tz);
+            glRotated(az,0,0,1);
+            glRotated(ay,0,1,0);
+            glRotated(ax,1,0,0);
+            glColor3f(0,0,0);
+
+            computador->desenhar();
+            glEnable(GL_LIGHTING);
+            glPopMatrix();
+        }
+
         computadores->push_back(computador);
         computadores->pop_front();
-        glPopMatrix();
+
     }
 
 
@@ -369,16 +452,6 @@ void Laboratorio::desenhaQuadroEpiso()
     glEnable(GL_CULL_FACE);
     glPopMatrix();
 
-
-
-
-
-
-}
-
-void Laboratorio::aplicaSombras(float *matrizSombra)
-{
-    this->matrizSombra = matrizSombra;
 }
 
 void Laboratorio::setSombra(bool sombra)

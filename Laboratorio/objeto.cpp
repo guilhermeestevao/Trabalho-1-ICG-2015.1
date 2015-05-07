@@ -4,7 +4,7 @@ Objeto::Objeto()
 {
     selecionado = false;
     eixos = false;
-    sombra = false;
+
     ax = ay = az = 0;
     tx = ty =  tz = 0;
     sx = sy = sz = 1;
@@ -64,10 +64,6 @@ void Objeto::setEixos(bool eixos)
     this->eixos = eixos;
 }
 
-void Objeto::setSombra(bool sombra)
-{
-    this->sombra = sombra;
-}
 
 float Objeto::getAX()
 {

@@ -15,7 +15,7 @@ public:
     void setTranslacao(float x, float y, float z);
     void setSelecionado(bool selecionado);
     void setEixos(bool eixos);
-    void setSombra(bool sombra);
+
     float getAX();
     float getAY();
     float getAZ();
@@ -31,7 +31,7 @@ protected:
     float sx, sy, sz;
     float tx, ty, tz;
     float matrizSombra[16];
-    bool selecionado, eixos, sombra;
+    bool selecionado, eixos;
 };
 
 #endif // OBJETO_H

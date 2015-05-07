@@ -40,17 +40,11 @@ float sz = 1.0;
 int slices = 16;
 int stacks = 16;
 int pos_select = -1;
-
 Camera* cam = new CameraDistante(1,3,22,0,1,0,0,1,0);
 float savedCamera[9];
-GLfloat light_position[] = { 0.0f, 4.0f, 1.0f, 1.0f };
-
 Laboratorio *lab = new Laboratorio();
 std::vector<Objeto*>*objetos = lab->getObjetosCenario();
 int qtd_lista = objetos->size();
-
-Objeto *piso = new Piso();
-
 
 void resize(int largura, int altura){
     width = largura;
@@ -87,9 +81,9 @@ void display() {
 
     //posicao da luz
     glPushMatrix();
-        glutGUI::trans_luz = trans_luz;
-        GUI::setLight(0, Luz::lightPosition[0], Luz::lightPosition[1], Luz::lightPosition[2], false, false);
-        glLightfv(GL_LIGHT0, GL_POSITION, Luz::lightPosition);
+    glutGUI::trans_luz = trans_luz;
+    GUI::setLight(0, Luz::lightPosition[0], Luz::lightPosition[1], Luz::lightPosition[2], false, false);
+    glLightfv(GL_LIGHT0, GL_POSITION, Luz::lightPosition);
     glPopMatrix();
 
 
@@ -416,14 +410,23 @@ void key(unsigned char key, int x, int y)
         trans_luz = !trans_luz;
         break;
     case 'l':
-        light_position[3] = 1 - light_position[3];
-        if(light_position[3] == 1){
-            lab->setSombra(false);
-        }else{
+        Luz::lightPosition[3] = 1 - Luz::lightPosition[3];
+        if(Luz::lightPosition[3] == 1){
             lab->setSombra(true);
+        }else{
+            lab->setSombra(false);
         }
 
         break;
+
+    case 'n':
+        if (cam->estilo == 1) {
+            delete cam;
+            double dist = sqrt(1 / 3.0);
+            cam = new CameraDistante(dist+3,dist+3,dist+3, 0.0,0.0,0.0, 0.0,1.0,0.0);
+        }
+        break;
+
     case 'c':
         static int posCam = 0;
         posCam++;
