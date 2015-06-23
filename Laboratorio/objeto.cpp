@@ -18,18 +18,19 @@ Objeto::~Objeto()
 void Objeto::desenhar() const
 {
     glTranslated(tx, ty, tz);
-    // Rotação
+    glRotated(ax, 1, 0, 0);
+    glRotated(ay, 0, 1, 0);
+    glRotated(az, 0, 0, 1);
+    // Escala
+    glScaled(sx, sy, sz);
+
     if(eixos){
         Desenha::drawEixos( 1 );
         glColor3f(0,1,1);
     }
 
 
-    glRotated(ax, 1, 0, 0);
-    glRotated(ay, 0, 1, 0);
-    glRotated(az, 0, 0, 1);
-    // Escala
-    glScaled(sx, sy, sz);
+
 
 }
 

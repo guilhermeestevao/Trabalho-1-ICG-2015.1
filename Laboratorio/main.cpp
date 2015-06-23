@@ -14,6 +14,7 @@
 #include "laboratorio.h"
 #include "gui.h"
 #include "luz.h"
+#define PADDING 5
 
 using namespace std;
 
@@ -34,6 +35,9 @@ float ay = 0.0;
 float az = 0.0;
 float delta = 5.0;
 bool trans_luz = false;
+bool multiple_viewports = false;
+bool obj_transp = false;
+float transparencia = 0.5;
 float sx = 1.0;
 float sy = 1.0;
 float sz = 1.0;
@@ -51,33 +55,18 @@ void resize(int largura, int altura){
     altura = altura;
 }
 
-void displayInit() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    const float ar = height>0 ? (float) width / (float) height : 1.0;
 
-    glViewport(0, 0, width, height);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    if ( !projecao ){
-        gluPerspective(30.,ar,0.1,1000.);
-    }else{
-        glOrtho(-ar, ar, -1, 1, -100.0, 1000.0);
-    }
-
-}
 
 void display() {
-    displayInit();
 
-    //Camera
-    gluLookAt(cam->e.x,cam->e.y,cam->e.z, cam->c.x,cam->c.y,cam->c.z, cam->u.x,cam->u.y,cam->u.z);
+    //displayInit();
 
-    glColor3f(1,1,1);
+    if (!obj_transp) glDisable(GL_BLEND); //transparencia
 
+    glColor4f(1,1,1,transparencia);
 
+    //glColor3f(1,1,1);
 
     //posicao da luz
     glPushMatrix();
@@ -86,17 +75,65 @@ void display() {
     glLightfv(GL_LIGHT0, GL_POSITION, Luz::lightPosition);
     glPopMatrix();
 
-
-
     lab->contruirCenario();
 
 
+
     cout<<"e.x = "<<cam->e.x<<"e.y = "<<cam->e.y<<"e.z = "<<cam->e.z<<"c.x = "<<cam->c.x<<"c.y = "<<cam->c.y<<"c.z = "<<cam->c.z<<"u.x = "<<cam->u.x<<"u.y"<<cam->u.y<<"u.z = "<<cam->u.z<<endl;
+
+}
+
+void displayInit() {
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    const float ar = height>0 ? (float) width / (float) height : 1.0;
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(30.,ar,0.1,1000.);
+
+    glMatrixMode(GL_MODELVIEW);
+    //glLoadIdentity();
+
+
+
+    if (!multiple_viewports) {
+        //viewport unica
+        glViewport(0, 0, width, height);
+            glLoadIdentity();
+            gluLookAt(cam->e.x,cam->e.y,cam->e.z, cam->c.x,cam->c.y,cam->c.z, cam->u.x,cam->u.y,cam->u.z);
+                display();
+    } else {
+        //viewport 01 - top left
+        glViewport(0, height/2.0, width/2.0, height/2.0);
+            glLoadIdentity();
+            gluLookAt(cam->e.x,cam->e.y,cam->e.z, cam->c.x,cam->c.y,cam->c.z, cam->u.x,cam->u.y,cam->u.z);
+                display();
+        //viewport 02 - top right
+        glViewport(width/2.0, height/2.0, width/2.0, height/2.0);
+            glLoadIdentity();
+            gluLookAt(0.8,3.5,-25, 0,1,0, 0,1,0);
+                display();
+        //viewport 03 - bottom left
+        glViewport(0, 0, width/2.0, height/2.0);
+            glLoadIdentity();
+            gluLookAt(-25,5,-5, 1,1.5,-4, 0,1,0);
+                display();
+        //viewport 04 - bottom right
+        glViewport(width/2.0, 0, width/2.0, height/2.0);
+            glLoadIdentity();
+            gluLookAt(2,38,-4, 2,1,-3.5, 0,0,-1);
+                display();
+    }
+
     glutSwapBuffers();
 
 
-
 }
+
+
+
 
 void mouseButton(int button, int state, int x, int y) {
 
@@ -375,10 +412,10 @@ void key(unsigned char key, int x, int y)
         ty-=1;
         break;
     case 'W':
-        sz +=1;
+        sz *=2;
         break;
     case 'S':
-        sz -=1;
+        sz /=2;
         break;
     case 'D':
         sx*=2;
@@ -390,7 +427,7 @@ void key(unsigned char key, int x, int y)
         sy*=2;
         break;
     case 'E':
-        sy/=1;
+        sy/=2;
         break;
     case 'i':
         ax=ay=az=0.0;
@@ -408,6 +445,9 @@ void key(unsigned char key, int x, int y)
         break;
     case 'v':
         trans_luz = !trans_luz;
+        break;
+    case 'T':
+        obj_transp = !obj_transp;
         break;
     case 'l':
         Luz::lightPosition[3] = 1 - Luz::lightPosition[3];
@@ -427,6 +467,14 @@ void key(unsigned char key, int x, int y)
         }
         break;
 
+    case 'm':
+        multiple_viewports = !multiple_viewports;
+        break;
+    case 'c':
+        obj_transp = !obj_transp;
+        break;
+
+    /*
     case 'c':
         static int posCam = 0;
         posCam++;
@@ -442,7 +490,7 @@ void key(unsigned char key, int x, int y)
             cam = new CameraDistante(1,3,22,0,1,0,0,1,0);
         }
         break;
-
+    */
     case 'b':
         //save current camera location
         savedCamera[0] = cam->e.x;
@@ -485,7 +533,7 @@ int main(int argc, char *argv[])
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     glutCreateWindow("Laboratorio");
     //glutReshapeFunc(tamanho);
-    glutDisplayFunc(display);
+    glutDisplayFunc(displayInit);
     glClearColor(0,0,0,0);
 
     //teclado e maouse
