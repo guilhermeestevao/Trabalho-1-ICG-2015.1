@@ -8,7 +8,7 @@ INCLUDEPATH += gui_glut
 INCLUDEPATH += user
 
 DEFINES += USE_SDL
-LIBS += -lglut -lgsl -l3ds -lGLU -lGL -lm -lSDL -lSDL_image
+LIBS += -lglut -lgsl -l3ds -lGLU -lGL -lm -lSDL -lSDL_image -lIL
 
 HEADERS += \
     bib/Camera.h \
@@ -20,6 +20,7 @@ HEADERS += \
     bib/stanfordbunny.h \
     gui_glut/extra.h \
     gui_glut/gui.h \
+    gui_glut/openTextures.h \
     cadeira.h \
     mesa.h \
     objeto.h \
@@ -40,6 +41,7 @@ SOURCES += \
     bib/model3ds.cpp \
     gui_glut/extra.cpp \
     gui_glut/gui.cpp \
+    gui_glut/openTextures.cpp \
     cadeira.cpp \
     mesa.cpp \
     objeto.cpp \

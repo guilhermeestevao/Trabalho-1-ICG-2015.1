@@ -36,7 +36,7 @@ DISTNAME      = Laboratorio1.0.0
 DISTDIR = /home/guilherme/git/Trabalho-1-ICG-2015.1/Laboratorio/.tmp/Laboratorio1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/guilherme/Qt/5.4/gcc_64
-LIBS          = $(SUBLIBS) -lglut -lgsl -l3ds -lGLU -lGL -lm -lSDL -lSDL_image 
+LIBS          = $(SUBLIBS) -lglut -lgsl -l3ds -lGLU -lGL -lm -lSDL -lSDL_image -lIL 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -57,6 +57,7 @@ SOURCES       = ../Laboratorio/bib/Camera.cpp \
 		../Laboratorio/bib/model3ds.cpp \
 		../Laboratorio/gui_glut/extra.cpp \
 		../Laboratorio/gui_glut/gui.cpp \
+		../Laboratorio/gui_glut/openTextures.cpp \
 		../Laboratorio/cadeira.cpp \
 		../Laboratorio/mesa.cpp \
 		../Laboratorio/objeto.cpp \
@@ -75,6 +76,7 @@ OBJECTS       = Camera.o \
 		model3ds.o \
 		extra.o \
 		gui.o \
+		openTextures.o \
 		cadeira.o \
 		mesa.o \
 		objeto.o \
@@ -207,6 +209,7 @@ DIST          = ../../../Qt/5.4/gcc_64/mkspecs/features/spec_pre.prf \
 		bib/stanfordbunny.h \
 		gui_glut/extra.h \
 		gui_glut/gui.h \
+		gui_glut/openTextures.h \
 		cadeira.h \
 		mesa.h \
 		objeto.h \
@@ -224,6 +227,7 @@ DIST          = ../../../Qt/5.4/gcc_64/mkspecs/features/spec_pre.prf \
 		../Laboratorio/bib/model3ds.cpp \
 		../Laboratorio/gui_glut/extra.cpp \
 		../Laboratorio/gui_glut/gui.cpp \
+		../Laboratorio/gui_glut/openTextures.cpp \
 		../Laboratorio/cadeira.cpp \
 		../Laboratorio/mesa.cpp \
 		../Laboratorio/objeto.cpp \
@@ -566,7 +570,6 @@ main.o: ../Laboratorio/main.cpp ../Laboratorio/cadeira.h \
 		../Laboratorio/piso.h \
 		../Laboratorio/gui_glut/gui.h \
 		../Laboratorio/gui_glut/extra.h \
-		../Laboratorio/gui_glut/OpenTextures.h \
 		../Laboratorio/quadro.h \
 		../Laboratorio/laboratorio.h \
 		../Laboratorio/parede.h \
@@ -580,8 +583,7 @@ extra.o: ../Laboratorio/gui_glut/extra.cpp ../Laboratorio/gui_glut/extra.h \
 		../Laboratorio/bib/CameraDistante.h \
 		../Laboratorio/bib/Camera.h \
 		../Laboratorio/bib/Vetor3D.h \
-		../Laboratorio/bib/Desenha.h \
-		../Laboratorio/gui_glut/OpenTextures.h
+		../Laboratorio/bib/Desenha.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o extra.o ../Laboratorio/gui_glut/extra.cpp
 
 gui.o: ../Laboratorio/gui_glut/gui.cpp ../Laboratorio/gui_glut/gui.h \
@@ -589,9 +591,11 @@ gui.o: ../Laboratorio/gui_glut/gui.cpp ../Laboratorio/gui_glut/gui.h \
 		../Laboratorio/bib/CameraDistante.h \
 		../Laboratorio/bib/Camera.h \
 		../Laboratorio/bib/Vetor3D.h \
-		../Laboratorio/bib/Desenha.h \
-		../Laboratorio/gui_glut/OpenTextures.h
+		../Laboratorio/bib/Desenha.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gui.o ../Laboratorio/gui_glut/gui.cpp
+
+openTextures.o: ../Laboratorio/gui_glut/openTextures.cpp ../Laboratorio/gui_glut/openTextures.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o openTextures.o ../Laboratorio/gui_glut/openTextures.cpp
 
 cadeira.o: ../Laboratorio/cadeira.cpp ../Laboratorio/cadeira.h \
 		../Laboratorio/objeto.h \
@@ -623,8 +627,7 @@ piso.o: ../Laboratorio/piso.cpp ../Laboratorio/piso.h \
 		../Laboratorio/gui_glut/gui.h \
 		../Laboratorio/gui_glut/extra.h \
 		../Laboratorio/bib/CameraDistante.h \
-		../Laboratorio/bib/Camera.h \
-		../Laboratorio/gui_glut/OpenTextures.h
+		../Laboratorio/bib/Camera.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o piso.o ../Laboratorio/piso.cpp
 
 quadro.o: ../Laboratorio/quadro.cpp ../Laboratorio/quadro.h \
@@ -645,7 +648,6 @@ laboratorio.o: ../Laboratorio/laboratorio.cpp ../Laboratorio/laboratorio.h \
 		../Laboratorio/gui_glut/extra.h \
 		../Laboratorio/bib/CameraDistante.h \
 		../Laboratorio/bib/Camera.h \
-		../Laboratorio/gui_glut/OpenTextures.h \
 		../Laboratorio/computador.h \
 		../Laboratorio/parede.h \
 		../Laboratorio/luz.h
@@ -662,8 +664,7 @@ luz.o: ../Laboratorio/luz.cpp ../Laboratorio/luz.h \
 		../Laboratorio/bib/CameraDistante.h \
 		../Laboratorio/bib/Camera.h \
 		../Laboratorio/bib/Vetor3D.h \
-		../Laboratorio/bib/Desenha.h \
-		../Laboratorio/gui_glut/OpenTextures.h
+		../Laboratorio/bib/Desenha.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o luz.o ../Laboratorio/luz.cpp
 
 ####### Install

@@ -14,7 +14,9 @@ void Laboratorio::desenhaMesas()
         glColor3f(0.6,0.4,0.0);
         glTranslated(0,0,-i);
         mesa = (Mesa*) mesas->front();
+        glPushName(mesa->id);
         mesa->desenhar();
+        glPopName();
         glPopMatrix();
 
 
@@ -36,6 +38,7 @@ void Laboratorio::desenhaMesas()
             glColor3d(0, 0, 0);
 
             mesa->desenhar();
+            glPopName();
             glEnable(GL_LIGHTING);
             glPopMatrix();
         }
@@ -47,7 +50,9 @@ void Laboratorio::desenhaMesas()
         glColor3f(0.6,0.4,0.0);
         glTranslated(3,0,-i);
         mesa = (Mesa*) mesas->front();
+        glPushName(mesa->id);
         mesa->desenhar();
+        glPopName();
         glPopMatrix();
 
         if(sombra){
@@ -68,6 +73,7 @@ void Laboratorio::desenhaMesas()
 
             glColor3f(0,0,0);
             mesa->desenhar();
+
             glEnable(GL_LIGHTING);
             glPopMatrix();
         }
@@ -80,7 +86,9 @@ void Laboratorio::desenhaMesas()
         glColor3f(0.6,0.4,0.0);
         glTranslated(-3,0,-i);
         mesa = (Mesa*) mesas->front();
+        glPushName(mesa->id);
         mesa->desenhar();
+        glPopName();
         glPopMatrix();
 
         if(sombra){
@@ -119,8 +127,9 @@ void Laboratorio::desenhaMesaProfessor()
     glColor3f(0.6,0.4,0.0);
     glRotated(180, 0,1,0);
     glTranslated(-2,0,-4);
+    glPushName(mesaProfessor->id);
     mesaProfessor->desenhar();
-
+    glPopName();
     glPopMatrix();
 
 
@@ -154,8 +163,9 @@ void Laboratorio::desenhaMesaProfessor()
     glColor3f(1,0,0);
     glRotated(180, 0,1,0);
     glTranslated(-2,0,-4);
+    glPushName(cadeiraProfessor->id);
     cadeiraProfessor->desenhar();
-
+    glPopName();
     glPopMatrix();
 
     if(sombra){
@@ -189,7 +199,9 @@ void Laboratorio::desenhaMesaProfessor()
     glRotated(180, 0,1,0);
     glTranslated(-2,0,-4);
     computadorProfessor->desenhar();
+    glPushName(computadorProfessor->id);
     objetosCenarios->push_back(cadeiraProfessor);
+    glPopName();
     glPopMatrix();
 
 
@@ -209,7 +221,9 @@ void Laboratorio::desenhaCadeiras()
         glColor3f(1,0,0);
         glTranslated(0,0,-i);
         cadeira = (Cadeira*)cadeiras->front();
+        glPushName(cadeira->id);
         cadeira->desenhar();
+        glPopName();
         glPopMatrix();
 
         if(sombra){
@@ -241,7 +255,9 @@ void Laboratorio::desenhaCadeiras()
         glColor3f(1,0,0);
         glTranslated(-3,0,-i);
         cadeira = (Cadeira*)cadeiras->front();
+        glPushName(cadeira->id);
         cadeira->desenhar();
+        glPopName();
         glPopMatrix();
 
         if(sombra){
@@ -275,7 +291,9 @@ void Laboratorio::desenhaCadeiras()
         glColor3f(1,0,0);
         glTranslated(3,0,-i);
         cadeira = (Cadeira*)cadeiras->front();
+        glPushName(cadeira->id);
         cadeira->desenhar();
+        glPopName();
         glPopMatrix();
 
         if(sombra){
@@ -324,8 +342,9 @@ void Laboratorio::desenhaComputadores()
         glTranslated(0,0,-i);
         glColor3f(0,0,1);
         computador = (Computador*)computadores->front();
+        glPushName(computador->id);
         computador->desenhar();
-
+        glPopName();
         glPopMatrix();
 
 
@@ -361,7 +380,9 @@ void Laboratorio::desenhaComputadores()
         glTranslated(-3,0,-i);
         glColor3f(0,0,1);
         computador = (Computador*)computadores->front();
+        glPushName(computador->id);
         computador->desenhar();
+        glPopName();
         glPopMatrix();
         if(sombra){
             glPushMatrix();
@@ -394,8 +415,9 @@ void Laboratorio::desenhaComputadores()
         glTranslated(3,0,-i);
         glColor3f(0,0,1);
         computador = (Computador*)computadores->front();
+        glPushName(computador->id);
         computador->desenhar();
-
+        glPopName();
         glPopMatrix();
 
         if(sombra){
@@ -434,21 +456,27 @@ void Laboratorio::desenhaQuadroEpiso()
 {
 
     glPushMatrix();
+    glPushName(piso->id);
     glDisable(GL_CULL_FACE);
     glTranslated(0,0,0);
-    this->piso->desenhar();
+    //this->piso->desenhar();
+    glPopName();
     glEnable(GL_CULL_FACE);
     glPopMatrix();
     glPushMatrix();
+    glPushName(quadro->id);
     glDisable(GL_CULL_FACE);
     glTranslated(0,1,5);
     this->quadro->desenhar();
+    glPopName();
     glEnable(GL_CULL_FACE);
     glPopMatrix();
     glPushMatrix();
+    glPushName(parede->id);
     glDisable(GL_CULL_FACE);
     glTranslated(5,0,-8);
     this->parede->desenhar();
+    glPopName();
     glEnable(GL_CULL_FACE);
     glPopMatrix();
 
@@ -466,37 +494,49 @@ Laboratorio::Laboratorio()
     this->matrizSombra = (float*) malloc(16*sizeof(float));
     this->objetosCenarios = new std::vector<Objeto*>();
     this->piso = new Piso();
+    piso->id = 0;
     objetosCenarios->push_back(piso);
     this->parede = new Parede();
+    parede->id = 1;
     objetosCenarios->push_back(parede);
     this->quadro = new Quadro();
+    quadro->id = 2;
     objetosCenarios->push_back(quadro);
     this->mesaProfessor = new Mesa();
+    mesaProfessor->id = 3;
     objetosCenarios->push_back(mesaProfessor);
     this->cadeiraProfessor = new Cadeira();
+    cadeiraProfessor->id = 4;
     objetosCenarios->push_back(cadeiraProfessor);
     this->computadorProfessor = new Computador();
+    computadorProfessor->id = 5;
     objetosCenarios->push_back(computadorProfessor);
-
+    int k = 6;
     this->mesas = new std::list<Mesa*>();
     for(int i = 0; i<QUANTIDADE*3; i++){
         Mesa *mesa = new Mesa();
+        mesa->id = k;
         mesas->push_back(mesa);
         objetosCenarios->push_back(mesa);
+        k++;
     }
 
     this->cadeiras = new std::list<Cadeira*>();
     for(int i = 0; i<QUANTIDADE*3; i++){
         Cadeira *cadeira = new Cadeira();
+        cadeira->id = k;
         cadeiras->push_back(cadeira);
         objetosCenarios->push_back(cadeira);
+        k++;
     }
 
     this->computadores = new std::list<Computador*>();
     for(int i = 0; i<QUANTIDADE*3; i++){
         Computador *computador = new Computador();
+        computador->id = k;
         computadores->push_back(computador);
         objetosCenarios->push_back(computador);
+        k++;
     }
 
 
@@ -509,14 +549,11 @@ Laboratorio::~Laboratorio()
 
 void Laboratorio::contruirCenario()
 {
-
     desenhaQuadroEpiso();
     desenhaMesaProfessor();
     desenhaCadeiras();
     desenhaMesas();
     desenhaComputadores();
-
-
 }
 
 std::vector<Objeto *> *Laboratorio::getObjetosCenario()

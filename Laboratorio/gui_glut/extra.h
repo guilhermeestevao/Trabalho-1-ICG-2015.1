@@ -14,7 +14,7 @@
 #include "Desenha.h"
 
 //texture
-#include "OpenTextures.h"
+#include "gui_glut/openTextures.h"
 
 //definido para usar no metodo autoCamMotion
 #define HALF_PI 237.58 //90 graus => 237.58

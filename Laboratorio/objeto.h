@@ -15,7 +15,7 @@ public:
     void setTranslacao(float x, float y, float z);
     void setSelecionado(bool selecionado);
     void setEixos(bool eixos);
-
+    int id;
     float getAX();
     float getAY();
     float getAZ();
